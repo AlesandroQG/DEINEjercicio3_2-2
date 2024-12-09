@@ -29,7 +29,11 @@ La estructura del proyecto es la siguiente:
           - `Agenda.fxml`: Ventana principal de la aplicación
         - `images`: Carpeta que contiene las imágenes de la aplicación
         - `reports`:
-          - `Agenda.jasper`: Fichero del informe de JasperReport
-          - `Agenda.jrxml`: Fichero para la edición del informe de JasperReport en JasperStudio
+          - `InformePersonas1.jasper`: Fichero del informe de JasperReport del apartado 1 ()
+          - `InformePersonas1.jrxml`: Fichero para la edición del informe de JasperReport en JasperStudio del apartado 1
+          - `InformePersonas2.jasper`: Fichero del informe de JasperReport del apartado 2
+          - `InformePersonas2.jrxml`: Fichero para la edición del informe de JasperReport en JasperStudio del apartado 2
+          - `InformePersonas3.jasper`: Fichero del informe de JasperReport del apartado 3
+          - `InformePersonas3.jrxml`: Fichero para la edición del informe de JasperReport en JasperStudio del apartado 3
         - `sql`:
           - `agenda.sql`: Fichero para la creación de la base de datos

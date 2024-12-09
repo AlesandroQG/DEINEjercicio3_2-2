@@ -1,12 +1,13 @@
 package com.alesandro.ejercicio3_22.controller;
 
 import com.alesandro.ejercicio3_22.AgendaApplication;
+import com.alesandro.ejercicio3_22.dao.DaoPersona;
 import com.alesandro.ejercicio3_22.db.DBConnect;
-import javafx.application.Platform;
+import javafx.application.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -23,6 +24,18 @@ import java.util.ResourceBundle;
  * Clase que controla los eventos de la ventana principal
  */
 public class AgendaController implements Initializable {
+    @FXML // fx:id="rbInforme1"
+    private RadioButton rbInforme1; // Value injected by FXMLLoader
+
+    @FXML // fx:id="rbInforme2"
+    private RadioButton rbInforme2; // Value injected by FXMLLoader
+
+    @FXML // fx:id="rbInforme3"
+    private RadioButton rbInforme3; // Value injected by FXMLLoader
+
+    @FXML // fx:id="tgInforme"
+    private ToggleGroup tgInforme; // Value injected by FXMLLoader
+
     /**
      * Función que se ejecuta cuando se inicia la ventana
      *
@@ -35,17 +48,65 @@ public class AgendaController implements Initializable {
     }
 
     /**
-     * Función que carga y lanza el informe de JasperReport
+     * Función que es ejecuta cuando se pulsa el botón “Aceptar”. Abre el informe seleccionado
      *
      * @param event
      */
     @FXML
-    void lanzarInforme(ActionEvent event) {
+    void aceptar(ActionEvent event) {
+        if (rbInforme1.isSelected()) {
+            lanzarInformePersonas("InformePersonas1");
+        } else if (rbInforme2.isSelected()) {
+            lanzarInformePersonas("InformePersonas2");
+        } else {
+            lanzarSubinforme();
+        }
+    }
+
+    /**
+     * Función que es ejecuta cuando se pulsa el botón “Cancelar”. Cierra la aplicación
+     *
+     * @param event
+     */
+    @FXML
+    void cancelar(ActionEvent event) {
+        Platform.exit();
+    }
+
+    /**
+     * Función que carga y lanza el informe de JasperReport
+     *
+     * @param informe nombre del archivo del informe a lanzar
+     */
+    public void lanzarInformePersonas(String informe) {
         DBConnect connection;
         try {
             connection = new DBConnect(); // Instanciar la conexión con la base de datos
-            HashMap<String, Object> parameters = null; // Cargar todos los países de la base de datos para insertar en el informe
-            JasperReport report = (JasperReport) JRLoader.loadObject(AgendaApplication.class.getResource("report/Agenda.jasper")); // Obtener el fichero del informe
+            HashMap<String, Object> parameters = DaoPersona.findAll(); // Cargar todos los países de la base de datos para insertar en el informe
+            JasperReport report = (JasperReport) JRLoader.loadObject(AgendaApplication.class.getResource("reports/" + informe + ".jasper")); // Obtener el fichero del informe
+            JasperPrint jprint = JasperFillManager.fillReport(report, parameters, connection.getConnection()); // Cargar el informe con los países
+            JasperViewer viewer = new JasperViewer(jprint, false); // Instanciar la vista del informe para mostrar el informe
+            viewer.setVisible(true); // Mostrar el informe al usuario
+        } catch (JRException e) {
+            e.printStackTrace();
+            mostrarAlerta("Ha ocurrido un error cargando el informe");
+            Platform.exit(); // Cerrar la aplicación
+        } catch (SQLException e) {
+            e.printStackTrace();
+            mostrarAlerta("Ha ocurrido un erros cargando los países de la base de datos");
+            Platform.exit(); // Cerrar la aplicación
+        }
+    }
+
+    /**
+     * Función que carga y lanza el informe de JasperReport
+     */
+    public void lanzarSubinforme() {
+        DBConnect connection;
+        try {
+            connection = new DBConnect(); // Instanciar la conexión con la base de datos
+            HashMap<String, Object> parameters = DaoPersona.findAll(); // Cargar todos los países de la base de datos para insertar en el informe
+            JasperReport report = (JasperReport) JRLoader.loadObject(AgendaApplication.class.getResource("reports/.jasper")); // Obtener el fichero del informe
             JasperPrint jprint = JasperFillManager.fillReport(report, parameters, connection.getConnection()); // Cargar el informe con los países
             JasperViewer viewer = new JasperViewer(jprint, false); // Instanciar la vista del informe para mostrar el informe
             viewer.setVisible(true); // Mostrar el informe al usuario
