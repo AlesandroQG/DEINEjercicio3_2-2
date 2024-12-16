@@ -38,7 +38,7 @@ public class AgendaController {
     /**
      * Función que es ejecuta cuando se pulsa el botón “Aceptar”. Abre el informe seleccionado
      *
-     * @param event
+     * @param event evento del usuario
      */
     @FXML
     void aceptar(ActionEvent event) {
@@ -54,7 +54,7 @@ public class AgendaController {
     /**
      * Función que es ejecuta cuando se pulsa el botón “Cancelar”. Cierra la aplicación
      *
-     * @param event
+     * @param event evento del usuario
      */
     @FXML
     void cancelar(ActionEvent event) {

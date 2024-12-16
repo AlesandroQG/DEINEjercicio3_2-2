@@ -14,11 +14,9 @@ import java.io.IOException;
  */
 public class AgendaApplication extends Application {
     /**
-     * {@inheritDoc}
-     *
      * Función donde se carga y se muestra la ventana de la aplicación
      *
-     * @param stage
+     * @param stage escena de la aplicación
      */
     @Override
     public void start(Stage stage) throws IOException {
