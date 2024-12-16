@@ -1,7 +1,9 @@
 package com.alesandro.ejercicio3_22.controller;
 
 import com.alesandro.ejercicio3_22.AgendaApplication;
+import com.alesandro.ejercicio3_22.dao.DaoEmail;
 import com.alesandro.ejercicio3_22.dao.DaoPersona;
+import com.alesandro.ejercicio3_22.dao.DaoTelefono;
 import com.alesandro.ejercicio3_22.db.DBConnect;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -93,7 +95,10 @@ public class AgendaController {
         DBConnect connection;
         try {
             connection = new DBConnect(); // Instanciar la conexión con la base de datos
-            HashMap<String, Object> parameters = DaoPersona.findAll(); // Cargar todos los países de la base de datos para insertar en el informe
+            HashMap<String, Object> parameters = new HashMap<>(); // Cargar todos los países de la base de datos para insertar en el informe
+            parameters.put("PERSONS", DaoPersona.todasPersonas());
+            parameters.put("EMAILS", DaoEmail.todosEmails());
+            parameters.put("TELEFONOS", DaoTelefono.todosTelefonos());
             JasperReport report = (JasperReport) JRLoader.loadObject(AgendaApplication.class.getResource("reports/InformePersonas3.jasper")); // Obtener el fichero del informe
             JasperPrint jprint = JasperFillManager.fillReport(report, parameters, connection.getConnection()); // Cargar el informe con los países
             JasperViewer viewer = new JasperViewer(jprint, false); // Instanciar la vista del informe para mostrar el informe

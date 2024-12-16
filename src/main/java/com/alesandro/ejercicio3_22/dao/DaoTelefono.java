@@ -4,11 +4,41 @@ import com.alesandro.ejercicio3_22.db.*;
 import com.alesandro.ejercicio3_22.model.*;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Dao del objeto Teléfono
  */
 public class DaoTelefono {
+    /**
+     * Función que obtiene todos los teléfonos de la base de datos
+     *
+     * @return lista de teléfonos o null
+     */
+    public static List<Telefono> todosTelefonos() {
+        List<Telefono> telefonos = new ArrayList<>();
+        try {
+            DBConnect connection = new DBConnect();
+            String sql = "SELECT id,dni,telefono FROM telefono";
+            PreparedStatement ps = connection.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int id = rs.getInt("id");
+                String dni = rs.getString("dni");
+                Persona persona_db = DaoPersona.obtenerPorDni(dni);
+                String telefono_db = rs.getString("telefono");
+                Telefono telefono = new Telefono(id, persona_db, telefono_db);
+                telefonos.add(telefono);
+            }
+            connection.closeConnection();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
+        return telefonos;
+    }
+
     /**
      * Función que obtiene el teléfono de una persona
      *
