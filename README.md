@@ -2,7 +2,7 @@
 ## DM2 DEIN 2024-2025
 ### Alesandro Quirós Gobbato
 
-Esta es una aplicación hecha con JavaFX y JasperReports que muestra un informe con los países de la base de datos.
+Esta es una aplicación hecha con JavaFX y JasperReports que muestra varios informes con listados de personas de la base de datos.
 
 JasperReport está compilado en 7.0.1. La ejecución funciona en VSCode.
 
