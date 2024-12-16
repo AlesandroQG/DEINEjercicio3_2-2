@@ -76,11 +76,11 @@ public class AgendaController {
             JasperViewer viewer = new JasperViewer(jprint, false); // Instanciar la vista del informe para mostrar el informe
             viewer.setVisible(true); // Mostrar el informe al usuario
         } catch (JRException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
             mostrarAlerta("Ha ocurrido un error cargando el informe");
             Platform.exit(); // Cerrar la aplicación
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
             mostrarAlerta("Ha ocurrido un erros cargando los países de la base de datos");
             Platform.exit(); // Cerrar la aplicación
         }
@@ -99,11 +99,11 @@ public class AgendaController {
             JasperViewer viewer = new JasperViewer(jprint, false); // Instanciar la vista del informe para mostrar el informe
             viewer.setVisible(true); // Mostrar el informe al usuario
         } catch (JRException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
             mostrarAlerta("Ha ocurrido un error cargando el informe");
             Platform.exit(); // Cerrar la aplicación
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
             mostrarAlerta("Ha ocurrido un erros cargando los países de la base de datos");
             Platform.exit(); // Cerrar la aplicación
         }
