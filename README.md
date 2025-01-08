@@ -1,4 +1,4 @@
-# Ejercicio 3_2 2 - Países
+# Ejercicio 3_2 2 - Agenda
 ## DM2 DEIN 2024-2025
 ### Alesandro Quirós Gobbato
 
