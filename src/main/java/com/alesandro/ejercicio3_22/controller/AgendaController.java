@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -74,17 +75,15 @@ public class AgendaController {
             connection = new DBConnect(); // Instanciar la conexión con la base de datos
             HashMap<String, Object> parameters = DaoPersona.findAll(); // Cargar todos los países de la base de datos para insertar en el informe
             JasperReport report = (JasperReport) JRLoader.loadObject(AgendaApplication.class.getResource("reports/" + informe + ".jasper")); // Obtener el fichero del informe
-            JasperPrint jprint = JasperFillManager.fillReport(report, parameters, connection.getConnection()); // Cargar el informe con los países
+            JasperPrint jprint = JasperFillManager.fillReport(report, parameters, connection.getConnection()); // Cargar el informe con las personas
             JasperViewer viewer = new JasperViewer(jprint, false); // Instanciar la vista del informe para mostrar el informe
             viewer.setVisible(true); // Mostrar el informe al usuario
         } catch (JRException e) {
             System.err.println(e.getMessage());
             mostrarAlerta("Ha ocurrido un error cargando el informe");
-            Platform.exit(); // Cerrar la aplicación
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             mostrarAlerta("Ha ocurrido un erros cargando los países de la base de datos");
-            Platform.exit(); // Cerrar la aplicación
         }
     }
 
@@ -94,23 +93,33 @@ public class AgendaController {
     public void lanzarSubinforme() {
         DBConnect connection;
         try {
-            connection = new DBConnect(); // Instanciar la conexión con la base de datos
-            HashMap<String, Object> parameters = new HashMap<>(); // Cargar todos los países de la base de datos para insertar en el informe
-            parameters.put("PERSONS", DaoPersona.todasPersonas());
-            parameters.put("EMAILS", DaoEmail.todosEmails());
-            parameters.put("TELEFONOS", DaoTelefono.todosTelefonos());
+            connection = new DBConnect();
+            HashMap<String, Object> parameters = new HashMap<String, Object>();
+            parameters.put("emailreport", compilar("InformePersonas3_Emails.jrxml"));
+            parameters.put("telefonoreport", compilar("InformePersonas3_Telefonos.jrxml"));
             JasperReport report = (JasperReport) JRLoader.loadObject(AgendaApplication.class.getResource("reports/InformePersonas3.jasper")); // Obtener el fichero del informe
-            JasperPrint jprint = JasperFillManager.fillReport(report, parameters, connection.getConnection()); // Cargar el informe con los países
+            JasperPrint jprint = JasperFillManager.fillReport(report, parameters, connection.getConnection()); // Cargar el informe
             JasperViewer viewer = new JasperViewer(jprint, false); // Instanciar la vista del informe para mostrar el informe
             viewer.setVisible(true); // Mostrar el informe al usuario
+        } catch (JRException | SQLException e) {
+            System.err.println(e.getMessage());
+            mostrarAlerta("Ha ocurrido un error cargando el informe");
+        }
+    }
+
+    /**
+     * Función que compila un subinforme para su uso en un informe
+     *
+     * @param informe a compilar
+     * @return informe compilado
+     */
+    public JasperReport compilar(String informe) {
+        try {
+            return JasperCompileManager.compileReport(AgendaApplication.class.getResourceAsStream("reports/" + informe)); // Compilar el informe
         } catch (JRException e) {
             System.err.println(e.getMessage());
             mostrarAlerta("Ha ocurrido un error cargando el informe");
-            Platform.exit(); // Cerrar la aplicación
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-            mostrarAlerta("Ha ocurrido un erros cargando los países de la base de datos");
-            Platform.exit(); // Cerrar la aplicación
+            return null;
         }
     }
 

@@ -35,5 +35,7 @@ La estructura del proyecto es la siguiente:
           - `InformePersonas2.jrxml`: Fichero para la edición del informe de JasperReport en JasperStudio del apartado 2 (Informe personas con cálculos)
           - `InformePersonas3.jasper`: Fichero del informe de JasperReport del apartado 3 (Informe personas con subinformes)
           - `InformePersonas3.jrxml`: Fichero para la edición del informe de JasperReport en JasperStudio del apartado 3 (Informe personas con subinformes)
+          - `InformePersonas3_Emails.jrxml`: Fichero para la edición del informe de JasperReport en JasperStudio del apartado 3 (emails)
+          - `InformePersonas3_Telefonos.jrxml`: Fichero para la edición del informe de JasperReport en JasperStudio del apartado 3 (teléfonos)
         - `sql`:
           - `agenda.sql`: Fichero para la creación de la base de datos
